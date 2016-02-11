@@ -155,6 +155,7 @@ return [
       'Owl\Providers\TwitterBootstrapServiceProvider',
       'Owl\Providers\ValidatorServiceProvider',
       'Owl\Providers\RepositoriesServiceProvider',
+      'Owl\Providers\AuthServiceProvider',
 
     ],
 
