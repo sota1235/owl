@@ -22,7 +22,7 @@ class LoginCheckMiddleware
      */
     public function __construct(AuthManager $auth)
     {
-        $this->auth = $auth->driver('owl');
+        $this->auth = $auth;
     }
 
     /**
