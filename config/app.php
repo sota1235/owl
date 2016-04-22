@@ -152,7 +152,6 @@ return [
       'Owl\Providers\RouteServiceProvider',
       'Owl\Providers\ComposerServiceProvider',
       'Owl\Providers\MacroServiceProvider',
-      'Owl\Providers\TwitterBootstrapServiceProvider',
       'Owl\Providers\ValidatorServiceProvider',
       'Owl\Providers\RepositoriesServiceProvider',
       'Owl\Providers\AuthServiceProvider',
@@ -218,6 +217,6 @@ return [
   | Specification. if you want to know more detail, see http://semver.org/ .
   |
    */
-    'version' => '2.2.0',
+    'version' => '2.5.5',
 
   ];

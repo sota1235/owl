@@ -72,7 +72,7 @@
         <div class="col-sm-4">
             {!! Form::label('published', '記事の公開設定：') !!}
             {!! Form::select('published', array('0' => '非公開', '1' => '限定公開', '2' => '公開'), '2') !!}
-            {!! Form::submit('投稿',array('class'=>'btn btn-success btn-block')) !!}
+            {!! Form::submit('投稿',array('class'=>'btn btn-success btn-block js-item-submit-btn')) !!}
         </div>
     </div>
 
@@ -100,9 +100,11 @@
     <h5>最近の投稿</h5>
     <div class="sidebar-user-items">
         <ul>
-        @foreach ($user_items as $item)
+        @forelse ($user_items as $item)
             <li><a href="{{ action('ItemController@show', $item->open_item_id) }}">{{{ $item->title }}}</a></li>
-        @endforeach
+        @empty
+            <li>最近の投稿はありません</li>
+        @endforelse
         </ul>
     </div>
 </div>
@@ -123,13 +125,6 @@
                     availableTags: data
                 })
             }
-        });
-
-        $('.form-items').submit(function() {
-            $(this).submit(function() {
-                alert('処理中です');
-                return false;
-            });
         });
 
         $(function(){

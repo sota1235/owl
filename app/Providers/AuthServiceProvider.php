@@ -45,7 +45,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->app['auth']->extend('owl', function ($app) {
             return new Guard(
                 $app->make('\Owl\Authenticate\Driver\OwlUserProvider'),
-                $app['session.store'], null
+                $app['session.store']
             );
         });
     }

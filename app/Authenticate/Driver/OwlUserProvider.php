@@ -8,7 +8,6 @@ use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Owl\Authenticate\Driver\OwlUser;
 use Owl\Services\UserService;
-use Owl\Services\AuthService;
 
 /**
  * Class OwlUserProvider
@@ -20,21 +19,14 @@ class OwlUserProvider implements UserProvider
     /** @var UserService */
     protected $userService;
 
-    /** @var AuthService */
-    protected $authService;
-
     /**
      * Create constructor.
      *
      * @param UserService  $userService
-     * @param AuthService  $authService
      */
-    public function __construct(
-        UserService $userService,
-        AuthService $authService
-    ) {
+    public function __construct(UserService $userService)
+    {
         $this->userService = $userService;
-        $this->authService = $authService;
     }
 
     /**
@@ -77,21 +69,27 @@ class OwlUserProvider implements UserProvider
      */
     public function updateRememberToken(Authenticatable $user, $token)
     {
-        $this->userService->updateToken(
-            $user->getAuthIdentifier(),
-            $token
-        );
+        $this->userService->updateToken($user->getAuthIdentifier(), $token);
     }
 
     /**
      * Retrieve a user by the given credentials.
      *
      * @param array $credentials
-     * @return null
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByCredentials(array $credentials)
     {
-        return;
+        // Do not allowing login without password.
+        if (!array_key_exists('password', $credentials)) {
+            return;
+        }
+
+        unset($credentials['password']);
+
+        $user = $this->userService->getUser($credentials);
+
+        return $this->getOwlUser($user);
     }
 
     /**
@@ -99,11 +97,18 @@ class OwlUserProvider implements UserProvider
      *
      * @param \Illuminate\Contracts\Auth\Authenticatable $user
      * @param array $credentials
-     * @return true
+     * @return bool
      */
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
-        return true;
+        $password = $user->getAuthPassword();
+
+        if (password_verify($credentials['password'], $password)) {
+            return true;
+        }
+
+        // 不正なパスワード
+        return false;
     }
 
     /**
@@ -111,9 +116,9 @@ class OwlUserProvider implements UserProvider
      *
      * @param mixed  $user
      *
-     * @return OwlUser
+     * @return OwlUser|null
      */
-    protected function getGitHubUser($user)
+    protected function getOwlUser($user)
     {
         if (!is_null($user)) {
             return new OwlUser((array) $user);

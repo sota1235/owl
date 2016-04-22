@@ -46,12 +46,17 @@ class ItemRepository extends AbstractFluent implements ItemRepositoryInterface
      * Get a item by open item id with comments.
      *
      * @param int $open_item_id
-     * @return stdClass
+     * @return \stdClass|null
      */
     public function getByOpenItemIdWithComment($open_item_id)
     {
         // @FIXME
         $item = \DB::table('items')->where('open_item_id', $open_item_id)->first();
+
+        if (is_null($item)) {
+            return null;
+        }
+
         $item->user = \DB::table('users')->where('id', $item->user_id)->first();
         $comments = \DB::table('comments')->where('item_id', $item->id)->get();
         $i = 0;
@@ -61,6 +66,20 @@ class ItemRepository extends AbstractFluent implements ItemRepositoryInterface
         }
         $item->comment = $comments;
         return $item;
+    }
+
+    /**
+     * Get all items.
+     *
+     * @return stdClass
+     */
+    public function getAll()
+    {
+        return \DB::table('items')
+                    ->select('items.*', 'users.email', 'users.username')
+                    ->join('users', 'items.user_id', '=', 'users.id')
+                    ->orderBy('updated_at', 'desc')
+                    ->get();
     }
 
     /**
@@ -188,7 +207,7 @@ class ItemRepository extends AbstractFluent implements ItemRepositoryInterface
                     ->orderBy('items.id', 'desc')
                     ->take(5)->get();
         $i = 0;
-        foreach($items as $item) {
+        foreach ($items as $item) {
             $object = app('stdClass');
             $object->email = $item->user_email;
             $object->username = $item->user_username;
@@ -215,7 +234,7 @@ class ItemRepository extends AbstractFluent implements ItemRepositoryInterface
             ->orderBy('items.id', 'desc')
             ->paginate(10);
         $i = 0;
-        foreach($items as $item) {
+        foreach ($items as $item) {
             $object = app('stdClass');
             $object->email = $item->user_email;
             $object->username = $item->user_username;
@@ -241,7 +260,7 @@ class ItemRepository extends AbstractFluent implements ItemRepositoryInterface
             ->orderBy('items.id', 'desc')
             ->paginate(10);
         $i = 0;
-        foreach($items as $item) {
+        foreach ($items as $item) {
             $object = app('stdClass');
             $object->email = $item->user_email;
             $object->username = $item->user_username;
@@ -285,7 +304,7 @@ class ItemRepository extends AbstractFluent implements ItemRepositoryInterface
                     ->where('items.id', $item_id)
                     ->get();
         $i = 0;
-        foreach($items as $item) {
+        foreach ($items as $item) {
             $object = app('stdClass');
             $object->email = $item->user_email;
             $object->username = $item->user_username;
@@ -357,8 +376,8 @@ class ItemRepository extends AbstractFluent implements ItemRepositoryInterface
 
     /**
      * get item tags array
-     * 
-     * @param object $item 
+     *
+     * @param object $item
      * @return array
      */
     public function getTagsToArray($item)

@@ -9,6 +9,7 @@ use Owl\Services\StockService;
 use Owl\Services\TemplateService;
 use Owl\Http\Requests\ItemStoreRequest;
 use Owl\Http\Requests\ItemUpdateRequest;
+use Owl\Events\Item\CreateEvent;
 use Owl\Events\Item\EditEvent;
 
 class ItemController extends Controller
@@ -48,7 +49,7 @@ class ItemController extends Controller
         return \View::make('items.create', compact('template', 'user_items'));
     }
 
-    public function store(ItemStoreRequest $request)
+    public function store(ItemStoreRequest $request, Dispatcher $event)
     {
         $user = $this->userService->getCurrentUser();
 
@@ -69,6 +70,13 @@ class ItemController extends Controller
             $item = $this->itemService->getById($item->id);
             $this->tagService->syncTags($item, $tag_ids);
         }
+
+        // fire CreateEvent
+        // TODO: do not create instance in controller method
+        $event->fire(new CreateEvent(
+            $object->open_item_id,
+            (int) $user->id
+        ));
 
         return \Redirect::route('items.show', [$item->open_item_id]);
     }
@@ -107,7 +115,10 @@ class ItemController extends Controller
         $recent_stocks = $this->stockService->getRecentRankingWithCache(5, 7);
         $user_items = $this->itemService->getRecentsByUserId($item->user_id);
         $like_users = $this->itemService->getLikeUsersById($item->id);
-        return \View::make('items.show', compact('item', 'item_tags', 'user_items', 'stock', 'like', 'like_users', 'stocks', 'recent_stocks'));
+        return \View::make(
+            'items.show',
+            compact('item', 'item_tags', 'user_items', 'stock', 'like', 'like_users', 'stocks', 'recent_stocks')
+        );
     }
 
     public function edit($openItemId)
@@ -136,7 +147,10 @@ class ItemController extends Controller
         $user = $this->userService->getCurrentUser();
         $item = $this->itemService->getByOpenItemId($openItemId);
         if ($item->updated_at != \Input::get('updated_at')) {
-            return \Redirect::back()->with("updated_at", "コンフリクトの可能性があるため更新できませんでした。")->withInput();
+            return \Redirect::back()->with(
+                "updated_at",
+                "コンフリクトの可能性があるため更新できませんでした。"
+            )->withInput();
         }
         if ($item == null) {
             \App::abort(404);
@@ -167,7 +181,8 @@ class ItemController extends Controller
         // fire EditEvent
         // TODO: do not create instance in controller method
         $event->fire(new EditEvent(
-            $openItemId, (int) $user->id
+            $openItemId,
+            (int) $user->id
         ));
 
         return \Redirect::route('items.show', [$openItemId]);
@@ -201,7 +216,7 @@ class ItemController extends Controller
     public function parse()
     {
         $parsedMd = '';
-        if(\Input::get('md')) {
+        if (\Input::get('md')) {
             $parsedMd= \HTML::markdown(\Input::get('md'));
         }
         return response()->json(['html' => $parsedMd]);

@@ -109,6 +109,17 @@ class UserService extends Service
     }
 
     /**
+     * Get a user by specified keys.
+     *
+     * @param array  $wkey
+     * @return \stdClass | null
+     */
+    public function getUser(array $wkey)
+    {
+        return $this->userRepo->find($wkey);
+    }
+
+    /**
      * Get a user by user id.
      *
      * @param int  $id
@@ -182,10 +193,10 @@ class UserService extends Service
      */
     public function updateToken($userId, $token)
     {
-        return !!$this->loginTokenRepo->update(
-            [ 'token'   => $token  ],
-            [ 'user_id' => $userId ]
-        );
+        $params = compact('token');
+        $wkey   = ['user_id' => $userId];
+
+        return (bool) $this->loginTokenRepo->update($params, $wkey);
     }
 
     /**
