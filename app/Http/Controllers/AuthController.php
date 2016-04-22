@@ -44,7 +44,7 @@ class AuthController extends Controller
     {
         $credentials = $request->only('username', 'password');
 
-        if ($user = $this->auth->attempt($credentials, $request->has('remember'))) {
+        if ($user = $this->auth->attempt($credentials, $request->has('remember'), true)) {
             return redirect()->route('index');
         } else {
             return redirect()->back()
