@@ -21,7 +21,7 @@
         <p>オーナーの初期登録が完了しました。</p>
         <div class="center-block">
             <div class="col-sm-3">
-                <p><a href="/" type="button" class="btn btn-default btn-block">TOPへ戻る</a></p>
+                <p><a href="{{{ route('index') }}}" type="button" class="btn btn-default btn-block">TOPへ戻る</a></p>
             </div>
         </div>
     </div>
