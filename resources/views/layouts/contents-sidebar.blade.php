@@ -1,16 +1,16 @@
 @section('contents-sidebar')
 @if(isset($User))
-    <a href="/items/create" class="btn btn-success btn-block">記事を投稿する</a>
+    <a href="{{{ route('items.create') }}}" class="btn btn-success btn-block">記事を投稿する</a>
     <div class="panel panel-default">
-        <div class="panel-heading">テンプレートから作成 <a href="/templates">[編集]</a></div>
+        <div class="panel-heading">テンプレートから作成 <a href="{{{ route('templates.index') }}}">[編集]</a></div>
         <ul class="list-group">
             @forelse ($templates as $template)
             <li class="list-group-item">
-                <a href="/items/create?t={{$template->id}}">{{{$template->display_title}}}</a>
+                <a href="{{{ route('items.create', ['t' => $template->id]) }}}">{{{$template->display_title}}}</a>
             </li>
             @empty
             <li class="list-group-item">
-              <a href="/templates/create"><span class="glyphicon glyphicon-plus"></span> 新しく作成する</a>
+                <a href="{{{ route('templates.create') }}}"><span class="glyphicon glyphicon-plus"></span> 新しく作成する</a>
             </li>
             @endforelse
         </ul>
