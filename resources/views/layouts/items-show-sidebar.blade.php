@@ -38,9 +38,9 @@
         <h6><strong>最新お気に入り数ランキング</strong></h6>
         <div class="sidebar-info-items">
             <ol>
-            @for ($i = 0; $i < count($recent_stocks); $i++)
-                <li><a href="{{{ route('items.show', ['items' => $recent_stocks[$i]->open_item_id]) }}}">{{{ $recent_stocks[$i] -> title }}}</a></li>
-            @endfor
+            @foreach ($recent_stocks as $item)
+                <li><a href="{{{ route('items.show', ['items' => $item->open_item_id]) }}}">{{{ $item->title }}}</a></li>
+            @endforeach
             </ol>
         </div>
     @endif
