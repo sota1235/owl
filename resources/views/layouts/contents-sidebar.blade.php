@@ -20,9 +20,9 @@
         <h4>総合お気に入り数ランキング</h4>
         <div class="sidebar-info-items">
             <ol>
-            @for ($i = 0; $i < count($ranking_stock); $i++)
-                <li><a href="{{ action('ItemController@show', $ranking_stock[$i]->open_item_id) }}">{{{ $ranking_stock[$i] -> title }}}</a></li>
-            @endfor
+            @foreach ($ranking_stock as $item)
+                <li><a href="{{ action('ItemController@show', $item->open_item_id) }}">{{{ $item->title }}}</a></li>
+            @endforeach
             </ol>
         </div>
     @endif
