@@ -19,7 +19,7 @@
         <p>（登録されている場合のみ、メールが送信されます。）</p>
         <div class="center-block">
             <div class="col-sm-3">
-                <p><a href="/login" type="button" class="btn btn-default btn-block">戻る</a></p>
+                <p><a href="{{{ route('login.form') }}}" type="button" class="btn btn-default btn-block">戻る</a></p>
             </div>
         </div>
     </div>
