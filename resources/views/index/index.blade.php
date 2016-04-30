@@ -14,17 +14,17 @@ Owl | TOP
 
 @section('contents-main')
 <ul class="nav nav-tabs nav-justified">
-  <li role="presentation" <?php ($kind === 'stock') ? print 'class="active"' : "" ?>><a href="/?kind=stock">ストック</a></li>
-  <li role="presentation" <?php ($kind === 'flow') ? print 'class="active"' : "" ?>><a href="/?kind=flow">フロー</a></li>
-  <li role="presentation" <?php ($kind === 'all') ? print 'class="active"' : "" ?>><a href="/?kind=all">全ての投稿</a></li>
+    <li role="presentation" @if($kind === 'stock') class="active" @endif><a href="{{{ route('index', ['kind' => 'stock']) }}}">ストック</a></li>
+    <li role="presentation" @if($kind === 'flow') class="active"  @endif><a href="{{{ route('index', ['kind' => 'flow']) }}}">フロー</a></li>
+    <li role="presentation" @if($kind === 'all') class="active"   @endif><a href="{{{ route('index', ['kind' => 'all']) }}}">全ての投稿</a></li>
 </ul>
 
 <div class="items">
   @forelse ($items as $item)
   <div class="item">
     {!! \HTML::gravator($item->email, 40) !!}
-    <p><a href="/{{{$item->username}}}" class="username">{{{$item->username}}}</a>さんが<?php echo date('Y/m/d', strtotime($item->updated_at)); ?>に投稿しました。</p>
-    <p><a href="{{ action('ItemController@show', $item->open_item_id) }}"><strong>{{{ $item->title }}}</strong></a></p>
+    <p><a href="{{{ route('user.profile', ['username' => $item->username]) }}}" class="username">{{{$item->username}}}</a>さんが{{{ date('Y/m/d', strtotime($item->updated_at)) }}}に投稿しました。</p>
+    <p><a href="{{{ route('items.show', ['items' => $item->open_item_id]) }}}"><strong>{{{ $item->title }}}</strong></a></p>
   </div>
   @empty
     <br>
