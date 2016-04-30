@@ -21,7 +21,7 @@
         <div class="sidebar-info-items">
             <ol>
             @foreach ($ranking_stock as $item)
-                <li><a href="{{ action('ItemController@show', $item->open_item_id) }}">{{{ $item->title }}}</a></li>
+                <li><a href="{{{ route('items.show', ['items' => $item->open_item_id]) }}}">{{{ $item->title }}}</a></li>
             @endforeach
             </ol>
         </div>
