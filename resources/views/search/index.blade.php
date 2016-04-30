@@ -9,7 +9,7 @@
 @stop
 
 @section('contents-pagehead')
-@if (is_null($q) || $q === "") 
+@if (is_null($q) || $q === "")
 <p class="page-title">検索ワードが設定されていません。</p>
 @else
 <p class="page-title"><span class='search-word'>{{$q}}</span>の検索結果</p>
@@ -34,23 +34,23 @@
     <div class="items">
     @foreach ($results as $item)
     <div class="item">
-        <a class="pull-left" href="/{{$item->username}}">
+        <a class="pull-left" href="{{{ route('user.profile', ['username' => $item->username]) }}}">
             {!! HTML::gravator($item->email, 40) !!}
         </a>
         <div class="media-body">
-            <p><a href="/{{{$item->username}}}" class="username">{{{$item->username}}}</a>さんが<?php echo date('Y/m/d', strtotime($item->updated_at)); ?>に投稿しました。</p>
-            <p><a href="{{ action('ItemController@show', $item->open_item_id) }}"><strong>{{{ $item->title }}}</strong></a></p>
+            <p><a href="{{{ route('user.profile', ['username' => $item->username]) }}}" class="username">{{{$item->username}}}</a>さんが{{{ date('Y/m/d', strtotime($item->updated_at)) }}}に投稿しました。</p>
+            <p><a href="{{{ route('items.show', ['items' => $item->open_item_id]) }}}"><strong>{{{ $item->title }}}</strong></a></p>
         </div>
     </div>
     @endforeach
-    <?php echo $pagination->appends(array('q' => $q))->render(); ?>
+    {{{ $pagination->appends(compact('q'))->render() }}}
     </div>
     @endif
 
     @if (count($results) <= 0 && count($tags) <= 0 && count($users) <= 0)
     <div class="noresults">
     検索結果は見つかりませんでした。検索ワードを変えて再度検索して下さい。
-    </div> 
+    </div>
     @endif
 @stop
 
