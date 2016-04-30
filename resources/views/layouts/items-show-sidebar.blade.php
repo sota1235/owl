@@ -17,14 +17,14 @@
             {!! HTML::gravator($item->user->email, 30,'mm','g','true',array('class'=>'media-object')) !!}
         </a>
         <div class="media-body">
-            <h4 class="media-heading"><a href="/{{{$item->user->username}}}" class="username">{{{$item->user->username}}}</a></h4>
+            <h4 class="media-heading"><a href="{{{ route('user.profile', ['username' => $item->user->username]) }}}" class="username">{{{$item->user->username}}}</a></h4>
         </div>
     </div>
     <h6><strong>最近の投稿</strong></h6>
     <div class="sidebar-user-items">
         <ul>
         @forelse ($user_items as $item)
-            <li><a href="{{ action('ItemController@show', $item->open_item_id) }}">{{{ $item->title }}}</a></li>
+            <li><a href="{{{ route('items.show', ['items' => $item->open_item_id]) }}}">{{{ $item->title }}}</a></li>
         @empty
             <li>最近の投稿はありません。</li>
         @endforelse
@@ -39,7 +39,7 @@
         <div class="sidebar-info-items">
             <ol>
             @for ($i = 0; $i < count($recent_stocks); $i++)
-                <li><a href="{{ action('ItemController@show', $recent_stocks[$i]->open_item_id) }}">{{{ $recent_stocks[$i] -> title }}}</a></li>
+                <li><a href="{{{ route('items.show', ['items' => $recent_stocks[$i]->open_item_id]) }}}">{{{ $recent_stocks[$i] -> title }}}</a></li>
             @endfor
             </ol>
         </div>
