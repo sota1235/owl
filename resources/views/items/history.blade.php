@@ -41,7 +41,7 @@
 
   @if (count($histories) == ($i + 1))
     <div class="history-area">
-      <h2><a href="/{{{$histories[$i]->user->username}}}">{!! HTML::gravator($histories[$i]->user->email, 30) !!} {{ $histories[$i]->user->username }}</a> が {{ date('Y/m/d', strtotime($histories[$i]->updated_at)) }} に作成<span class="glyphicon glyphicon-chevron-down pull-right" aria-hidden="true"></h2>
+      <h2><a href="{{{ route('user.profile', ['username' => $histories[$i]->user->username]) }}}">{!! HTML::gravator($histories[$i]->user->email, 30) !!} {{ $histories[$i]->user->username }}</a> が {{ date('Y/m/d', strtotime($histories[$i]->updated_at)) }} に作成<span class="glyphicon glyphicon-chevron-down pull-right" aria-hidden="true"></h2>
       <div class="diff-area hidden">
         <h3>本文</h3>
         <div class="content-diff">
@@ -52,7 +52,7 @@
     <?php continue; ?>
   @else
     <div class="history-area">
-      <h2><a href="/{{{$histories[$i]->user->username}}}">{!! HTML::gravator($histories[$i]->user->email, 30) !!} {{ $histories[$i]->user->username }}</a> が {{ date('Y/m/d', strtotime($histories[$i]->updated_at)) }} に変更<span class="glyphicon glyphicon-chevron-down pull-right" aria-hidden="true"></span></h2>
+      <h2><a href="{{{ route('user.profile', ['username' => $histories[$i]->user->username]) }}}">{!! HTML::gravator($histories[$i]->user->email, 30) !!} {{ $histories[$i]->user->username }}</a> が {{ date('Y/m/d', strtotime($histories[$i]->updated_at)) }} に変更<span class="glyphicon glyphicon-chevron-down pull-right" aria-hidden="true"></span></h2>
       <div class="diff-area hidden">
         <h3>本文</h3>
         <div class="content-diff">
@@ -73,12 +73,12 @@
     @for ($i = 0; $i < count($histories); $i++)
         @if (count($histories) == ($i + 1))
         <li>
-        <a href="/{{{$histories[$i]->user->username}}}">{{ $histories[$i]->user->username }}</a>が{{ date('Y/m/d', strtotime($histories[$i]->updated_at)) }}に作成<br />
+        <a href="{{{ route('user.profile', ['username' => $histories[$i]->user->username]) }}}">{{ $histories[$i]->user->username }}</a>が{{ date('Y/m/d', strtotime($histories[$i]->updated_at)) }}に作成<br />
         <?php continue; ?>
         </li>
         @endif
         <li>
-        <a href="/{{{$histories[$i]->user->username}}}">{{ $histories[$i]->user->username }}</a>が{{ date('Y/m/d', strtotime($histories[$i]->updated_at)) }}に変更<br />
+        <a href="{{{ route('user.profile', ['username' => $histories[$i]->user->username]) }}}">{{ $histories[$i]->user->username }}</a>が{{ date('Y/m/d', strtotime($histories[$i]->updated_at)) }}に変更<br />
         </li>
     @endfor
     </ul>
