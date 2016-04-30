@@ -1,24 +1,24 @@
 @if (!isset($needContainerDiv))
 <div class="media comment">
 @endif
-  <a class="pull-left" href="/{{{$comment->user->username}}}">
+  <a class="pull-left" href="{{{ route('user.profile', ['username' => $comment->user->username]) }}}">
     {!! HTML::gravator($comment->user->email, 40,'mm','g','true',array('class'=>'media-object')) !!}
   </a>
   <div class="media-body">
     <div class='left'>
       <div id="inside">
-        <h4 class="media-heading title-username" ><a class="pull-left" href="/{{{$comment->user->username}}}">{{$comment->user->username}}</a></h4>
+        <h4 class="media-heading title-username" ><a class="pull-left" href="{{{ route('user.profile', ['username' => $comment->user->username]) }}}">{{$comment->user->username}}</a></h4>
         <h4 class="media-heading title-onedit">コメントを編集する</h4>
       </div>
     </div>
     <div class="right">
-      <div><?php echo date('Y/m/d H:i', strtotime($comment->updated_at)); ?></div>
-      
+      <div>{{{ date('Y/m/d H:i', strtotime($comment->updated_at)) }}}</div>
+
       <div>
         @if (isset($User) && $comment->user_id === $User->id)
         <a href="javascript:void(0)" class="start-edit">編集</a>・<a href="javascript:void(0)" class="comment-delete" value="anonakami">削除</a>
         @else
-         　 
+         　
         @endif
       </div>
     </div>
