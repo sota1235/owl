@@ -22,13 +22,13 @@
     @forelse ($stocks as $stock)
     <div class="stock">
         {!! HTML::gravator($stock->email, 40) !!}
-        <p><a href="/{{{$stock->username}}}" class="username">{{{$stock->username}}}</a>さんが<?php echo date('Y/m/d', strtotime($stock->updated_at)); ?>に投稿しました。</p>
-        <p><a href="{{ action('ItemController@show', $stock->open_item_id) }}"><strong>{{{ $stock->title }}}</strong></a></p>
+        <p><a href="{{{ route('user.profile', ['username' => $stock->username]) }}}" class="username">{{{$stock->username}}}</a>さんが{{{ date('Y/m/d', strtotime($stock->updated_at)) }}}に投稿しました。</p>
+        <p><a href="{{{ route('items.show', ['items' => $stock->open_item_id]) }}}"><strong>{{{ $stock->title }}}</strong></a></p>
     </div>
     @empty
       <p class="text-center text-muted"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> お気に入りされた投稿はありません。</p>
     @endforelse
-    <?php echo $stocks->render(); ?>
+    {{{ $stocks->render() }}}
 </div>
 @stop
 
