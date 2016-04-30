@@ -37,8 +37,8 @@
         <h4>最新お気に入り数ランキング</h4>
         <div class="sidebar-info-items">
             <ol>
-            @for ($i = 0; $i < count($recent_ranking); $i++)
-                <li><a href="{{{ route('items.show', ['items' => $recent_ranking[$i]->open_item_id]) }}}">{{{ $recent_ranking[$i] -> title }}}</a></li>
+            @foreach ($recent_ranking as $item)
+                <li><a href="{{{ route('items.show', ['items' => $item->open_item_id]) }}}">{{{ $item->title }}}</a></li>
             @endfor
             </ol>
         </div>
@@ -48,8 +48,8 @@
         <h4>総合お気に入り数ランキング</h4>
         <div class="sidebar-info-items">
             <ol>
-            @for ($i = 0; $i < count($all_ranking); $i++)
-                <li><a href="{{{ route('items.show', ['items' => $all_ranking[$i]->open_item_id]) }}}">{{{ $all_ranking[$i] -> title }}}</a></li>
+            @for ($all_ranking as $item)
+                <li><a href="{{{ route('items.show', ['items' => $item->open_item_id]) }}}">{{{ $item->title }}}</a></li>
             @endfor
             </ol>
         </div>
