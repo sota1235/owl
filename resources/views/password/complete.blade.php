@@ -18,7 +18,7 @@
         <p>新しいパスワードでログインしてください。</p>
         <div class="center-block">
             <div class="col-sm-3">
-                <p><a href="/login" type="button" class="btn btn-default btn-block">ログイン</a></p>
+                <p><a href="{{{ route('login.form') }}}" type="button" class="btn btn-default btn-block">ログイン</a></p>
             </div>
         </div>
     </div>
