@@ -75,7 +75,7 @@
         <h3 class="panel-title">登録済みの方へ</h3>
     </div>
     <div class="panel-body">
-        <a href="/login" type="button" class="btn btn-info btn-block">ログインはこちら</a>
+        <a href="{{{ route('login.form') }}}" type="button" class="btn btn-info btn-block">ログインはこちら</a>
     </div>
 </div>
 @stop
