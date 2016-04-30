@@ -55,12 +55,15 @@
 
 HTML::macro('show_users', function($array)
 {
-    $user_lists = "";
+    $user_lists = '';
+
     foreach($array as $user){
-        $image = HTML::gravator($user["email"], 20);
-        $user_lists .= $image . ' <a href="/'. $user["username"] .'">'. $user["username"] .'</a>';
-        $user_lists .= ($user === end($array)) ? '' : '　';
+        $username = $user['username'];
+        $image    = HTML::gravator($user['email'], 20);
+        $user_lists .= $image . ' <a href="'. route('user.profile', compact('username')) .'">'. $username .'</a>';
     }
+    $user_lists .= '　';
+
     return $user_lists;
 });
 
