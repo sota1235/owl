@@ -60,7 +60,7 @@ HTML::macro('show_users', function($array)
     foreach($array as $user){
         $username = $user['username'];
         $image    = HTML::gravator($user['email'], 20);
-        $user_lists .= $image . ' <a href="'. route('user.profile', compact('username')) .'">'. $username .'</a>';
+        $user_lists .= $image . ' <a href="'. route('user.profile', compact('username')) .'">'. e($username) .'</a>';
     }
     $user_lists .= '　';
 
