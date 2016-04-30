@@ -15,7 +15,7 @@
 @section('contents-main')
     <p>テンプレートは全体で共通です。</p>
 
-    <a href="/templates/create"><button type="button" class="btn btn-success btn-sm">新規作成</button></a><br />
+    <a href="{{{ route('templates.create') }}}"><button type="button" class="btn btn-success btn-sm">新規作成</button></a><br />
 
     <br />
     <table class="table table-bordered">
@@ -30,7 +30,7 @@
             <td>{{{ $template->title }}}</td>
             <td>
                 {!! Form::open(['route'=>['templates.destroy', $template->id], 'method'=>'DELETE']) !!}
-                <a href="/templates/{{$template->id}}/edit"><button type="button" class="btn btn-default btn-sm">編集</button></a>
+                <a href="{{{ route('templates.edit', ['templates' => $template->id]) }}}"><button type="button" class="btn btn-default btn-sm">編集</button></a>
                 <button onClick="return confirm('本当に削除しますか？');" type="submit" class="btn btn-danger btn-sm">削除</button>
                 {!! Form::close() !!}
             </td>
